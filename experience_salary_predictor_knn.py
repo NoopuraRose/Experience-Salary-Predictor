@@ -1,7 +1,7 @@
 # library imports
-import pandas as pd 
-from matplotlib import pyplot as plt 
-from sklearn.linear_model import LinearRegression
+import pandas as pd
+from matplotlib import pyplot as plt
+from sklearn.neighbors import KNeighborsRegressor
 from sklearn.metrics import mean_squared_error
 import numpy as np
 
@@ -10,14 +10,13 @@ mydata = pd.read_csv("experience_salary.csv")
 x = mydata[["X"]]
 y = mydata[["Y"]]
 
-# training and model creation
-model = LinearRegression()
+# model creation
+model = KNeighborsRegressor(n_neighbors = 3)
 model.fit(x,y)
 
-cf = model.coef_
-print("Coefficient = ", cf)
-intercept = model.intercept_
-print("Intercept = ", intercept)
+# predicting new value
+new_salary = model.predict([[160]])
+print("Predicted salary = ", new_salary)
 
 # model evaluation
 y_pred = model.predict(x)
@@ -25,10 +24,6 @@ mse = mean_squared_error(y,y_pred)
 print("MSE = ", mse)
 rmse = np.sqrt(mse)
 print("RMSE = ", rmse)
-
-# predicting new value
-new_salary = model.predict([[160]])
-print("Predicted salary = ", new_salary)
 
 # visualization
 plt.scatter(x,y)
